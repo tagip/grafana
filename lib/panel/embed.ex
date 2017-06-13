@@ -5,16 +5,16 @@ defmodule Grafana.Panel.Embed do
 
   # model
   # <iframe src="http://xxx.xxx.xxx.xxx:3000/dashboard-solo/db/worldping-endpoint-ping?panel_id=1" width="450" height="200" frameborder="0"></iframe>
-  defp build_src(uri, panel_id, refresh) do
-    "#{api_host()}/dashboard-solo/db/#{uri}?panelId=#{panel_id}&refresh=#{refresh}"
+  defp build_src(uri, panel_id, refresh, from, to) do
+    "#{api_host()}/dashboard-solo/db/#{uri}?panelId=#{panel_id}&refresh=#{refresh}&from=#{from}&to=#{to}"
   end
 
   defp build_src(uri, panel_id) do
     "#{api_host()}/dashboard-solo/db/#{uri}?panelId=#{panel_id}"
   end
 
-  def get_html(uri, panel_id, width, height, border, refresh) do
-    src = build_src uri, panel_id, refresh
+  def get_html(uri, panel_id, width, height, border, refresh, from, to) do
+    src = build_src uri, panel_id, refresh, from, to
     "<iframe src=\"#{src}\" width=\"#{width}\" height=\"#{height}\" frameborder=\"#{border}\"></iframe>"
   end
 
@@ -23,9 +23,9 @@ defmodule Grafana.Panel.Embed do
     "<iframe src=\"#{src}\" width=\"#{width}\" height=\"#{height}\" frameborder=\"#{border}\"></iframe>"
   end
 
-  def model(uri, panel_id, width, height, border, refresh) do
-    src = build_src uri, panel_id, refresh
-    %{src: src, width: width, height: height, frameborder: border, refresh: refresh}
+  def model(uri, panel_id, width, height, border, refresh, from, to) do
+    src = build_src uri, panel_id, refresh, from, to
+    %{src: src, width: width, height: height, frameborder: border, refresh: refresh, from: from, to: to}
   end
 
   def model(uri, panel_id, width, height, border) do
